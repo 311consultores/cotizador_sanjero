@@ -63,6 +63,12 @@ export class MapaComponent {
       sCiudad: ['', [Validators.required]]
     });
     this.cargaInicial();
+    //Escuchar evento
+    this._servCotizador.$openModal.subscribe((data) => {
+      if(data != null) {
+        this.abrirModal(data);
+      }
+    });
   }
 
    cargaInicial() {
@@ -70,18 +76,18 @@ export class MapaComponent {
     .subscribe((resp: any) => {
       if(resp.ok){
         this.arrayEtapas = resp.data;
-        this.etapaSeleccionada = resp.data[0];
-        this.iMinEnganche = resp.data[0].iMinEnganche;
-        this.obtenerLotesPorEtapa(resp.data[0].iIdEtapa, resp.data[0].path_svg);
+        this.obtenerLotesPorEtapa(resp.data[0], resp.data[0].path_svg);
       }
     });
   }
 
-  obtenerLotesPorEtapa(iIdEtapa: number, redireccion : string){
-    this._servCotizador.obtenerLotesPorEtapa(iIdEtapa)
+  obtenerLotesPorEtapa(etapa : any, redireccion : string){
+    this._servCotizador.obtenerLotesPorEtapa(etapa.iIdEtapa)
     .subscribe((resp : any) => {
       if(resp.ok) {
         this.arrayLotes = resp.data;
+        this.etapaSeleccionada = etapa;
+        this.iMinEnganche = etapa.iMinEnganche;
         localStorage.setItem('lotes_etapa',JSON.stringify(this.arrayLotes));
         this.router.navigate([redireccion]);
       }
@@ -182,7 +188,7 @@ export class MapaComponent {
       this.lote = this.arrayLotes.find((x: any) => x.iLote == lote);
       this.precioM2 = this.lote.iPrecioM2Contado;
       this.precioTotal = this.lote.iSuperficie * this.lote.iPrecioM2Contado;
-      this.obtenerPlazosPorEtapa(this.arrayEtapas[0].iIdEtapa);
+      this.obtenerPlazosPorEtapa(this.etapaSeleccionada.iIdEtapa);
       this.openModal();
     }
     

@@ -3,6 +3,7 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;" xml:space="preserve">
 <style type="text/css">
+	.fill{fill: #6fc531ad !important;};
 	.st0{clip-path:url(#SVGID_2_);}
 	.st1{fill:none;}
 	.st2{font-family:'MyriadPro-Regular';}
@@ -4853,7 +4854,6 @@ utFrrx1Pbep3Bf/Z" transform="matrix(0.4781 0 0 0.4781 0 0)">
 </g>
 <g id="LOTE_93">
 	<text transform="matrix(1.0179 0 0 1 103.5908 312.5504)" class="st2 st89">93</text>
-	<polyline class="st1" points="137.2,292.8 76.8,292.9 76.8,319.1 137.1,319.7 137.2,292.8 	"/>
 </g>
 <g id="LOTE_94">
 	<polygon class="st1" points="556.5,330 532.7,330 533,356.1 557.5,356.1 	"/>
@@ -4933,8 +4933,10 @@ utFrrx1Pbep3Bf/Z" transform="matrix(0.4781 0 0 0.4781 0 0)">
 	<text transform="matrix(0.9159 0 0 1 140.9883 374.1805)" class="st2 st99">112</text>
 </g>
 <g id="LOTE_113">
-	<polygon class="st1" points="138,329.6 78.1,329.6 77.5,355.4 138.4,355.7 	"/>
 	<text transform="matrix(1.0798 0 0 1 98.4824 373.4227)" class="st2 st103">113</text>
+	<!-- <polyline class="st1" points="137.2,292.8 76.8,292.9 76.8,319.1 137.1,319.7 137.2,292.8 	"/> -->
+	<!-- <polygon class="st1 fill" points="138,329.6 78.1,329.6 78.5,355.7 138.4,355.7 	"/> -->
+	<polygon class="st1 fill" points="138,356 78.1,329.6 77.5,355.4 168.4,355.7 	" />
 </g>
 <g id="LOTE_114">
 	<polygon class="st1" points="557.5,393.2 533.6,392.6 533.6,433.3 558.7,433.3 	"/>

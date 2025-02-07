@@ -14,6 +14,7 @@ export class CotizadorService {
   public SERVER_API = environment.API_URL;
   public iIdProyecto= environment.iIdProyecto;
   public $arrayLotes = new BehaviorSubject<any>(null);
+  public $openModal = new BehaviorSubject<any>(null);
 
   obtenerEtapas(){
     let url = this.SERVER_API+"getEtapas/"+this.iIdProyecto;

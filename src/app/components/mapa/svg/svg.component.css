@@ -20,7 +20,38 @@
 .p-apartado {
     fill: #7CDAF9 !important;
 }
-
 .p-vendido {
     fill: #FF5733 !important;
+}
+.details {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    border: 1px solid #00000054;
+    font-size: 11px !important;
+    display: none;
+    background: white;
+    z-index: 10000;
+}
+.details p span {
+    font-weight: 800;
+}
+.details p {
+    display: flex;
+    justify-content: space-between;    
+    padding: 1px 5px;
+    margin: 0;
+    color: #000;
+    font-weight: 400;
+}
+.details p:nth-of-type(1) {
+    background: #065D62;
+    margin: 0;
+    color: white;
+    font-weight: bold;
+}
+@media only screen and (max-width: 575px){
+    .details {
+        display: none !important;
+    }
 }
