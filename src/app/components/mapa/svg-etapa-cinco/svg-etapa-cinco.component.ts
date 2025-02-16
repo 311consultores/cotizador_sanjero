@@ -19,8 +19,13 @@ export class SvgEtapaCincoComponent {
   constructor(
     private _serContizador : CotizadorService
   ) { }
+  
+  ngOnInit() {
+    console.log(1);
+  }
 
   ngAfterViewInit() : void {
+    console.log(2);
     this.arrayLotes = JSON.parse(localStorage.getItem('lotes_etapa')+"");
     this.loadSvg(this.arrayLotes);
   }
@@ -28,7 +33,7 @@ export class SvgEtapaCincoComponent {
   loadSvg(lotes : any) {
     let nodos = $("#Capa_1").find("text");
     nodos.each((index : number, value : any) => {
-      let poligono = $(value).next();
+      let poligono = $(value).prev();
       let objLote =lotes.find((x : any) => x.iLote == $(value).html());
 
       if(objLote) {
@@ -52,8 +57,12 @@ export class SvgEtapaCincoComponent {
     });
   }
   openModal(event : any) {
+    console.log(event);
     let iLote= this.recuperarLoteClick(event);
-    this._serContizador.$openModal.next(iLote);
+    this.lote = this.arrayLotes.find((x: any) => iLote == x.iLote);
+    if(this.lote && this.lote.iStatus == 1){
+      this._serContizador.$openModal.next(iLote);
+    }
   }
 
   mostrarDetalle(event : any) {
@@ -80,8 +89,12 @@ export class SvgEtapaCincoComponent {
   }
 
   recuperarLoteClick(event : any) {
-    console.log(event.target.previousElementSibling.outerHTML);
-    let arrayString= (event.target.previousElementSibling.outerHTML).split('>');
+    let arrayString
+    try {
+      arrayString= (event.target.nextElementSibling.outerHTML).split('>');
+    }catch(error) {
+      arrayString= (event.target.outerHTML).split('>')
+    }
     let lote="";
     arrayString.forEach((element:string) => {
       element = element.replaceAll("</text", "");
@@ -93,7 +106,12 @@ export class SvgEtapaCincoComponent {
 
   recuperarLoteOver(event : any) {
     if(event.target.localName != "svg" && event.target.localName != "image") {
-        let arrayString= (event.target.previousElementSibling.outerHTML).split('>');
+        let arrayString
+        try {
+          arrayString= (event.target.nextElementSibling.outerHTML).split('>');
+        }catch(error) {
+          arrayString= (event.target.outerHTML).split('>')
+        }
         let lote="";
         arrayString.forEach((element:string) => {
           element = element.replaceAll("</text", "");

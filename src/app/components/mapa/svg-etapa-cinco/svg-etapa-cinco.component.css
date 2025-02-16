@@ -8,19 +8,22 @@
     text-decoration: none;
 }
 .p-disponible {
-    fill: #6fc531ad !important;
+    fill: #6EC531 !important;
 }
 
 .p-disponible:hover {
     fill: rgba(150, 229, 243, 0.703) !important;
     cursor: pointer;
 }
-
+.st2:hover ~ .p-disponible {
+    fill: rgba(150, 229, 243, 0.703) !important;
+    cursor: pointer;
+}
 .p-apartado {
-    fill: #7cdaf985 !important;
+    fill: #7CDAF9 !important;
 }
 .p-vendido {
-    fill: #ff58338a !important;
+    fill: #FF5733 !important;
 }
 .details {
     position: absolute;

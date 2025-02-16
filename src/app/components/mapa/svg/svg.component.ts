@@ -19,8 +19,13 @@ export class SvgComponent {
   constructor(
     private _serContizador : CotizadorService
   ) { }
+  
+  ngOnInit() {
+    console.log(1);
+  }
 
   ngAfterViewInit() : void {
+    console.log(2);
     this.arrayLotes = JSON.parse(localStorage.getItem('lotes_etapa')+"");
     this.loadSvg(this.arrayLotes);
   }

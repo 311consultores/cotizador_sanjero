@@ -45,7 +45,7 @@ export class ProyectosComponent {
   arrayEtapas: Etapa[] = [];
   arrayLotes: Lote[] = [];
   arrayPlazos: Plazo[] = [];
-  etapa!: Etapa;
+  etapa_seleccionada!: Etapa;
 
   constructor(
     private _formBuilder: RxFormBuilder,
@@ -67,20 +67,20 @@ export class ProyectosComponent {
     .subscribe((res : any) => {
       if(res.ok) {
         this.arrayEtapas=res.data;
-        this.etapa= res.data[0];
-        this.obtenerLotesXEtapa(res.data[0].iIdEtapa);
-        this.obtenerPlazosEtapa(res.data[0].iIdEtapa)
+        this.obtenerLotesXEtapa(res.data[0]);
         return;
       }
       Swal.fire("Ha ocurrido un problema",res.data,"warning");
     });
   }
 
-  obtenerLotesXEtapa(iIdEtapa: number) {
-    this._serAdmin.obtenerLotesEtapaAdmin(iIdEtapa)
+  obtenerLotesXEtapa(etapa : any) {
+    this._serAdmin.obtenerLotesEtapaAdmin(etapa.iIdEtapa)
     .subscribe((res : any) => {
       if(res.ok) {
         this.arrayLotes = res.data.lotes;
+        this.etapa_seleccionada= etapa;
+        this.obtenerPlazosEtapa(etapa.iIdEtapa)
       }
     });
   }
