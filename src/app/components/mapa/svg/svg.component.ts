@@ -2,32 +2,47 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import $ from 'jquery';
 import { CotizadorService } from '../../../core/services/cotizador.service';
 import { CurrencyPipe } from '@angular/common';
+import { ModalCotizadorComponent } from '../../modal-cotizador/modal-cotizador.component';
 @Component({
   selector: 'app-svg',
   standalone: true,
   imports: [
-    CurrencyPipe
+    CurrencyPipe,
+    ModalCotizadorComponent
   ],
   templateUrl: './svg.component.html',
   styleUrl: './svg.component.css'
 })
 export class SvgComponent {
+  public etapa : any;
   public arrayLotes: any;
-  lote : any;
-  precioContado: any;
+  public lote: any;
+  public loteDetalle : any;
+  public precioContado: any;
+  public isModalOpen = false;
 
   constructor(
     private _serContizador : CotizadorService
   ) { }
   
-  ngOnInit() {
-    console.log(1);
+  ngOnInit() : void {
+    this.cargaInicial();
   }
 
-  ngAfterViewInit() : void {
-    console.log(2);
-    this.arrayLotes = JSON.parse(localStorage.getItem('lotes_etapa')+"");
-    this.loadSvg(this.arrayLotes);
+  cargaInicial() {
+    this._serContizador.obtenerEtapasPorId(1)
+    .subscribe({
+      next: (response) => {
+        this.etapa = response.data[0];
+      }
+    });
+    this._serContizador.obtenerLotesPorEtapa(1)
+    .subscribe({
+      next: (response : any) => {
+        this.arrayLotes = response.data;
+        this.loadSvg(response.data);
+      }
+    });
   }
 
   loadSvg(lotes : any) {
@@ -59,19 +74,23 @@ export class SvgComponent {
 
   openModal(event : any) {
     let iLote= this.recuerarLote(event);
-    this._serContizador.$openModal.next(iLote);
+    this.lote = this.arrayLotes.find((x: any) => iLote == x.iLote);
+    if(this.lote && this.lote.iStatus == 1){
+      this.isModalOpen = true;
+      $(".details").hide();
+    }
   }
 
   mostrarDetalle(event : any) {  
     let iLote= this.recuerarLote(event);
     if(iLote != null && iLote != undefined) {
-      this.lote = this.arrayLotes.find((x: any) => iLote == x.iLote);
-      if(this.lote && this.lote.iStatus == 1){
+      this.loteDetalle = this.arrayLotes.find((x: any) => iLote == x.iLote);
+      if(this.loteDetalle && this.loteDetalle.iStatus == 1){
         $(".details").css({
-          'top': $(".lote-"+this.lote.iLote).position().top-75,
-          'left': $(".lote-"+this.lote.iLote).position().left
+          'top': $(".lote-"+this.loteDetalle.iLote).position().top-75,
+          'left': $(".lote-"+this.loteDetalle.iLote).position().left
         });
-        this.precioContado = this.lote.iPrecioM2Contado * this.lote.iSuperficie;
+        this.precioContado = this.loteDetalle.iPrecioM2Contado * this.loteDetalle.iSuperficie;
         $(".details").show();
       }else{
         $(".details").hide();
@@ -84,8 +103,8 @@ export class SvgComponent {
   esconderDetalle(event : any){
     let iLote= this.recuerarLote(event);
     if(iLote != null && iLote != undefined){
-      this.lote = this.arrayLotes.find((x: any) => iLote == x.iLote);
-      if(this.lote && this.lote.iStatus != 1){
+      this.loteDetalle = this.arrayLotes.find((x: any) => iLote == x.iLote);
+      if(this.loteDetalle && this.loteDetalle.iStatus != 1){
         $(".details").hide();
       }
     }else{

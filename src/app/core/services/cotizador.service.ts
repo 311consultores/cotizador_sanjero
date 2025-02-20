@@ -26,6 +26,20 @@ export class CotizadorService {
       }));
   }
 
+  obtenerEtapasPorId(iIdEtapa : any){
+    let json = {
+      iIdProyecto : this.iIdProyecto,
+      iIdEtapa : iIdEtapa
+    };
+    let url = this.SERVER_API+"getEtapasById";
+    return this.http.post( url, json )
+      .pipe(map( (resp: any) => {
+        return resp;
+      }), catchError(err => {
+        return throwError(err);
+      }));
+  }
+
   obtenerLotesPorEtapa(iIdEtapa : number) {
     let url = this.SERVER_API+"cotizador/obtenerLotesEtapa/"+iIdEtapa;
     return this.http.get( url )

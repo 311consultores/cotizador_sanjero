@@ -6,19 +6,24 @@ import { SvgEtapaCincoComponent } from './svg-etapa-cinco/svg-etapa-cinco.compon
 
 const routes: Routes = [
   {
-      path: '',
-      component: MapaComponent,
-      children: [
-        {
-          path: 'etapa-6',
-          component: SvgComponent
-        },
-        {
-          path: 'etapa-5',
-          component: SvgEtapaCincoComponent
-        }
-      ]
-    }
+    path: '',
+    component: MapaComponent,
+    children: [
+      {
+        path: '',
+        component: SvgEtapaCincoComponent, // ✅ Carga cuando la ruta es ''
+        pathMatch: 'full'
+      },
+      {
+        path: 'etapa-5',
+        component: SvgEtapaCincoComponent // ✅ También carga cuando la ruta es 'etapa-5'
+      },
+      {
+        path: 'etapa-6',
+        component: SvgComponent
+      }
+    ]
+  }
 ];
 
 @NgModule({

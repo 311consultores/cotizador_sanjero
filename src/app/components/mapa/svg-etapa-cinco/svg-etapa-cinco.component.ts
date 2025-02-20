@@ -1,33 +1,47 @@
 import { Component } from '@angular/core';
 import { CotizadorService } from '../../../core/services/cotizador.service';
 import { CurrencyPipe } from '@angular/common';
+import { ModalCotizadorComponent } from '../../modal-cotizador/modal-cotizador.component';
 
 @Component({
   selector: 'app-svg-etapa-cinco',
   standalone: true,
   imports: [
-    CurrencyPipe
+    CurrencyPipe,
+    ModalCotizadorComponent
   ],
   templateUrl: './svg-etapa-cinco.component.html',
   styleUrl: './svg-etapa-cinco.component.css'
 })
 export class SvgEtapaCincoComponent {
+  public etapa : any;
   public arrayLotes: any;
   public lote: any;
   public precioContado: any;
+  public isModalOpen = false;
 
   constructor(
     private _serContizador : CotizadorService
   ) { }
-  
-  ngOnInit() {
-    console.log(1);
+
+  ngOnInit() : void {
+    this.cargaInicial();
   }
 
-  ngAfterViewInit() : void {
-    console.log(2);
-    this.arrayLotes = JSON.parse(localStorage.getItem('lotes_etapa')+"");
-    this.loadSvg(this.arrayLotes);
+  cargaInicial() {
+    this._serContizador.obtenerEtapasPorId(2)
+    .subscribe({
+      next: (response) => {
+        this.etapa = response.data[0];
+      }
+    });
+    this._serContizador.obtenerLotesPorEtapa(2)
+    .subscribe({
+      next: (response : any) => {
+        this.arrayLotes = response.data;
+        this.loadSvg(response.data);
+      }
+    });
   }
 
   loadSvg(lotes : any) {
@@ -56,12 +70,13 @@ export class SvgEtapaCincoComponent {
       }
     });
   }
+
   openModal(event : any) {
-    console.log(event);
     let iLote= this.recuperarLoteClick(event);
     this.lote = this.arrayLotes.find((x: any) => iLote == x.iLote);
     if(this.lote && this.lote.iStatus == 1){
-      this._serContizador.$openModal.next(iLote);
+      this.isModalOpen = true;
+      $(".details").hide();
     }
   }
 
